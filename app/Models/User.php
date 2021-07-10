@@ -1,8 +1,8 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -36,4 +36,20 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    /**
+     * @return BelongsToMany
+     */
+    public function groupChats(): BelongsToMany
+    {
+        return $this->belongsToMany(GroupChat::class, 'group_chat_users');
+    }
+
+    /**
+     * @return BelongsToMany
+     */
+    public function groupAdmins(): BelongsToMany
+    {
+        return $this->belongsToMany(GroupChat::class, 'group_chat_admins');
+    }
 }
