@@ -17,3 +17,8 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+Route::group(['namespace' => 'Api\V1', 'prefix' => 'v1'], function() {
+    Route::resource('group-chats', 'GroupChatController');
+});
+
