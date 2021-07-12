@@ -2,11 +2,12 @@
 
 namespace App\Http\Controllers\Api\V1;
 
-use App\Http\Controllers\Controller;
+use App\Http\Controllers\Api\ApiController;
+use App\Http\Requests\GroupChat\GroupChatRequest;
 use App\Services\GroupChatService;
 use Illuminate\Http\Request;
 
-class GroupChatController extends Controller
+class GroupChatController extends ApiController
 {
     protected $groupChatService;
 
@@ -40,9 +41,17 @@ class GroupChatController extends Controller
         //
     }
 
-    public function store(Request $request)
+    /**
+     * @param GroupChatRequest $request
+     * @return \Illuminate\Http\JsonResponse
+     */
+    public function store(GroupChatRequest $request)
     {
-        $this->groupChatService->storeGroupChat($request->all());
+        $result = $this->groupChatService->storeGroupChat($request->validated());
+
+        return $result
+            ? $this->jsonResponse(message: 'Success')
+            : $this->jsonResponse(status: 500, message: 'Failed');
     }
 
     /**
